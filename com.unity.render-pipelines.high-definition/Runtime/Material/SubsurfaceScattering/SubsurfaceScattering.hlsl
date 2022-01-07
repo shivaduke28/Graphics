@@ -262,9 +262,9 @@ float3 IntegrateDiffuseScattering(float3 NdotL, float radius, float3 shapeParam,
 	float limit = PI * 0.5f;
 	float inc = 2.0f * limit / (float)steps;
 
-	float3 totalWeights = 0.0f;
-	float3 totalLight = 0.0f;
     float3 theta = acos(NdotL);
+	float3 totalWeights = EvalBurleyDiffusionProfile(0, shapeParam);
+	float3 totalLight = totalWeights * saturate(cos(theta));
 	for (float x = -limit; x <= limit; x += inc)
 	{
 		float3 diffuse = saturate(cos(theta + x));

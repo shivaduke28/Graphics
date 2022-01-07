@@ -140,6 +140,7 @@ namespace UnityEditor.Rendering.HighDefinition
         MaterialProperty[] bentNormalMap = new MaterialProperty[kMaxLayerCount];
         MaterialProperty[] bentNormalMapOS = new MaterialProperty[kMaxLayerCount];
         MaterialProperty[] normalMapSpace = new MaterialProperty[kMaxLayerCount];
+        MaterialProperty curvatureMap;
 
         MaterialProperty[] heightMap = new MaterialProperty[kMaxLayerCount];
         MaterialProperty[] heightAmplitude = new MaterialProperty[kMaxLayerCount];
@@ -277,6 +278,8 @@ namespace UnityEditor.Rendering.HighDefinition
             bentNormalMap = FindPropertyLayered(kBentNormalMap, m_LayerCount);
             bentNormalMapOS = FindPropertyLayered(kBentNormalMapOS, m_LayerCount);
             normalMapSpace = FindPropertyLayered(kNormalMapSpace, m_LayerCount);
+
+            curvatureMap = FindProperty("_CurvatureMap");
 
             // Height
             heightMap = FindPropertyLayered(kHeightMap, m_LayerCount);
@@ -532,6 +535,8 @@ namespace UnityEditor.Rendering.HighDefinition
             {
                 materialEditor.ShaderProperty(subsurfaceMask[m_LayerIndex], Styles.subsurfaceMaskText);
                 materialEditor.TexturePropertySingleLine(Styles.subsurfaceMaskMapText, subsurfaceMaskMap[m_LayerIndex]);
+                if (curvatureMap != null)
+                materialEditor.ShaderProperty(curvatureMap, "Curvature Map");
             }
 
             if ((int)materialID.floatValue == (int)MaterialId.LitTranslucent ||

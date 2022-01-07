@@ -1433,12 +1433,12 @@ CBSDF EvaluateBSDF(float3 V, float3 L, PreLightData preLightData, BSDFData bsdfD
             dot(L, lerp(N_high, N_low, blur.b))
         );
 
-        float curvature = _Radius;
+        float radius = _Radius / max(preLightData.curvature, 0.001);
 
 #if _ALGORITHM_ANALYTIC
-        diffRNdotL = IntegrateDiffuseScattering(NdotL_2, curvature, bsdfData.shapeParam, 20);
+        diffRNdotL = IntegrateDiffuseScattering(NdotL_2, radius, bsdfData.shapeParam, 20);
 #else
-        diffRNdotL = IntegrateDiffuseScattering(NdotL_2, curvature, bsdfData.shapeParam);
+        diffRNdotL = IntegrateDiffuseScattering(NdotL_2, radius, bsdfData.shapeParam);
 #endif
     }
 #else
