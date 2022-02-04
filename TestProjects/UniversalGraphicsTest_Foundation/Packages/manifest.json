@@ -18,6 +18,7 @@
     "com.unity.testframework.graphics": "7.8.14-preview",
     "com.unity.testing.xr": "file:../../../com.unity.testing.xr",
     "com.unity.ugui": "1.0.0",
+    "com.unity.xr.management": "git@github.cds.internal.unity3d.com:unity/xr.sdk.management.git",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
