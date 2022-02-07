@@ -1,0 +1,35 @@
+name: Sync-to-partner-repo
+on:
+  push:
+    branches:
+      - 'partner/crazyhunter**'
+
+jobs:
+  trigger-sync:
+    runs-on: ubuntu-latest
+    environment: prd
+    env:
+      YAMATO_TOKEN: ${{ secrets.YAMATO_TOKEN }}
+      YAMATO_JOBS_ENDPOINT: https://yamato-api.prd.cds.internal.unity3d.com/jobs
+      YAMATO_PROJ_ID: "1816"
+      YAMATO_PROJ_BRANCH: "gh-action"
+      YAMATO_PROJ_REV: "00c491a"
+    steps:
+      - name: Trigger Yamato sync
+        run: |
+            curl -k ${YAMATO_JOBS_ENDPOINT} \
+                -H "Content-Type: application/json" \
+                -H "Authorization: ApiKey ${YAMATO_TOKEN}" \
+                --data \
+                    "{
+                        \"source\"   : {
+                            \"branchname\" : \"${YAMATO_PROJ_BRANCH}\",
+                            \"revision\"   : \"${YAMATO_PROJ_REV}\"
+                        },
+                        \"rebuild\"  : \"minimal\",
+                        \"links\"    : {
+                            \"project\"        : \"/projects/${YAMATO_PROJ_ID}\",
+                            \"jobDefinition\"  : \"/projects/${YAMATO_PROJ_ID}/revisions/${YAMATO_PROJ_REV}/job-definitions/.yamato%2fyamato-config.yml\"
+                        }
+                    }"
+
