@@ -21,6 +21,7 @@ jobs:
         run: |
             sync_workflow_dispatch_endpoint="${SYNC_API_URL}/repos/${SYNC_REPO_OWNER}/${SYNC_REPO_NAME}/actions/workflows/${SYNC_WORKFLOW_PATH}/dispatches"
 
+
             curl -k "${sync_workflow_dispatch_endpoint}" \
                 -H "Accept: application/vnd.github.v3+json" \
                 -H "Content-Type: application/json" \
