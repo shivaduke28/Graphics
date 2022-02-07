@@ -9,27 +9,28 @@ jobs:
     runs-on: ubuntu-latest
     environment: prd
     env:
-      YAMATO_TOKEN: ${{ secrets.YAMATO_TOKEN }}
-      YAMATO_JOBS_ENDPOINT: https://yamato-api.prd.cds.internal.unity3d.com/jobs
-      YAMATO_PROJ_ID: "1816"
-      YAMATO_PROJ_BRANCH: "gh-action"
-      YAMATO_PROJ_REV: "00c491a"
+      SYNC_REPO_OWNER: "unity"
+      SYNC_REPO_NAME: "bonfire-unity-graphics-sync"
+      SYNC_API_URL: "https://api.github.cds.internal.unity3d.com"
+      SYNC_WORKFLOW_PATH: "main.yml"
+      SYNC_WORKFLOW_BRANCH: "gh-action"
+      PUSHED_REPO: "foo"
+      PUSHED_BRANCH: "bar"
     steps:
       - name: Trigger Yamato sync
         run: |
-            curl -k ${YAMATO_JOBS_ENDPOINT} \
+            sync_workflow_dispatch_endpoint="${SYNC_API_URL}/repos/${SYNC_REPO_OWNER}/${SYNC_REPO_NAME}/actions/workflows/${SYNC_WORKFLOW_PATH}/dispatches"
+
+            curl -k "${sync_workflow_dispatch_endpoint}" \
+                -H "Accept: application/vnd.github.v3+json" \
                 -H "Content-Type: application/json" \
-                -H "Authorization: ApiKey ${YAMATO_TOKEN}" \
+                -u "${GH_CDS_USER}:${GH_CDS_TOKEN}" \
                 --data \
                     "{
-                        \"source\"   : {
-                            \"branchname\" : \"${YAMATO_PROJ_BRANCH}\",
-                            \"revision\"   : \"${YAMATO_PROJ_REV}\"
-                        },
-                        \"rebuild\"  : \"minimal\",
-                        \"links\"    : {
-                            \"project\"        : \"/projects/${YAMATO_PROJ_ID}\",
-                            \"jobDefinition\"  : \"/projects/${YAMATO_PROJ_ID}/revisions/${YAMATO_PROJ_REV}/job-definitions/.yamato%2fyamato-config.yml\"
+                        \"ref\"                  : \"${SYNC_WORKFLOW_BRNACH}\",
+                        \"inputs\"               : {
+                            \"PUSHED_REPO\"   : \"${PUSHED_REPO}\",
+                            \"PUSHED_BRANCH\" : \"${PUSHED_BRANCH}\"
                         }
                     }"
 
