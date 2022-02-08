@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: prd
     env:
+      GH_CDS_USER: ${{ secrets.GH_CDS_USER }}
+      GH_CDS_TOKEN: ${{ secrets.GH_CDS_TOKEN }}
       SYNC_REPO_OWNER: "unity"
       SYNC_REPO_NAME: "bonfire-unity-graphics-sync"
       SYNC_API_URL: "https://api.github.cds.internal.unity3d.com"
@@ -20,7 +22,6 @@ jobs:
       - name: Trigger Yamato sync
         run: |
             sync_workflow_dispatch_endpoint="${SYNC_API_URL}/repos/${SYNC_REPO_OWNER}/${SYNC_REPO_NAME}/actions/workflows/${SYNC_WORKFLOW_PATH}/dispatches"
-
 
             curl -k "${sync_workflow_dispatch_endpoint}" \
                 -H "Accept: application/vnd.github.v3+json" \
