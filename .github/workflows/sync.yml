@@ -29,7 +29,7 @@ jobs:
                 -u "${GH_CDS_USER}:${GH_CDS_TOKEN}" \
                 --data \
                     "{
-                        \"ref\"                  : \"${SYNC_WORKFLOW_BRNACH}\",
+                        \"ref\"                  : \"${SYNC_WORKFLOW_BRANCH}\",
                         \"inputs\"               : {
                             \"PUSHED_REPO\"   : \"${PUSHED_REPO}\",
                             \"PUSHED_BRANCH\" : \"${PUSHED_BRANCH}\"
