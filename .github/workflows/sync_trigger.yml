@@ -1,5 +1,6 @@
 # NOTE: This workflow will/should only be run on the partner repos
 # (notice the trigger-sync['if'] item).
+# testing yamato
 name: Trigger-sync-with-partner
 on:
   push:
